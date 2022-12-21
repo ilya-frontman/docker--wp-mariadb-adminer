@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+  composer:
+    image: composer:latest
+    volumes:
+      - ./composer/composer.json:/app/composer.json
+      - ./plugins:/app:rw
+    command: update
+
+  wp:
+    image: wordpress:latest
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_NAME=$DB_NAME
+      - WORDPRESS_DB_USER=$DB_USER
+      - WORDPRESS_DB_PASSWORD=$DB_PASSWORD
+      - WORDPRESS_TABLE_PREFIX=$DB_PREFIX_TABLE
+      - MYSQL_ROOT_PASSWORD=$DB_ROOT_PASSWORD
+    volumes:
+      - ./wordpress:/var/www/html:rw
+      - ./themes:/var/www/html/wp-content/themes:rw
+      - ./plugins:/var/www/html/wp-content/plugins:rw
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+    links:
+      - mariadb
+    ports:
+      - $NETWORK_PORT:$NETWORK_PORT
+    depends_on:
+      - mariadb
+      - composer
+    
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      - MARIADB_DATABASE=$DB_NAME
+      - MARIADB_USER=$DB_USER
+      - MARIADB_PASSWORD=$DB_PASSWORD
+      - MARIADB_ROOT_PASSWORD=$DB_ROOT_PASSWORD
+    volumes:
+      - ./db:/var/lib/mysql:rw
+
+  adm:
+    image: adminer:latest
+    restart: always
+    environment:
+      - ADMINER_DEFAULT_SERVER=mariadb
+    ports:
+      - $ADM_PORT:$ADM_PORT
+    depends_on:
+      - mariadb

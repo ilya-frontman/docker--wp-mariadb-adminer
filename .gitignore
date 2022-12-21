@@ -1,0 +1,38 @@
+# files of wordpress cms
+/wordpress/
+
+
+# files of mariadb and sql server files
+/db/
+
+# hold env files: wp and db for autoinstall
+/env/*
+
+# database env, change it by yourself
+!/env/db.env
+
+# wp admin env, change it by yourself
+!/env/wp.env
+
+
+# external dir for themes directory original path (wordpress/wp-content/themes)
+/themes/*
+
+# external dir for plugins directory original path (wordpress/wp-content/plugins)
+/plugins/*
+
+# don't ignore your theme directory or git subfolder, uncommit and change with your theme name
+#!/themes/your_theme_name
+
+
+# hold conf.d and php.ini files from wp container 
+/php-config/
+
+# hold your php.ini config uncommit while use
+#!/php-config/php.ini
+
+
+# code editors folders
+.vscode
+
+.idea
