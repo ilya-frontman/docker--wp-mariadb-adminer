@@ -1,4 +1,4 @@
-# Docker-WP(LATEST)-MariaDB-Adminer
+# Docker-WP-MariaDB-Adminer
 
 > Simple docker env, for local development.
 
